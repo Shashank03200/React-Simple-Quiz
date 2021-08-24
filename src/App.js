@@ -1,24 +1,41 @@
-import logo from './logo.svg';
+
 import './App.css';
 
+import { useSelector } from 'react-redux';
+
+import Welcome from './components/Welcome/Welcome';
+import Problem from './components/Problem/Problem';
+import Result from './components/Result/Result';
+
+import { Switch, Route } from "react-router-dom";
+
+
 function App() {
+
+
+  const isQuizRunning = useSelector(state => state.isQuizRunning)
+
   return (
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+
+        <Route path="/quiz" exact>
+          {isQuizRunning ?
+            <Problem />
+            :
+            <Result />
+          }
+        </Route>
+
+        <Route path="/" >
+          <Welcome />
+        </Route>
+      </Switch>
     </div>
+
+
+
   );
 }
 
