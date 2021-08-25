@@ -27,6 +27,10 @@ const Welcome = (props) => {
     const negativeRef = useRef();
 
     useEffect(() => {
+        dispatch(userSliceActions.setQuizState(false))
+    }, [])
+
+    useEffect(() => {
         if (name === '' && nameIsTouched) {
             setNameError(true);
 
@@ -82,7 +86,7 @@ const Welcome = (props) => {
             <Box p={{ base: "10px", md: "40px", lg: "50px" }} mt="20">
 
                 <form>
-                    <Input className={nameError ? 'name-input invalid' : 'name-input'} placeholder="Enter your name" id="nameInput" name="nameInput" value={name} mt={30} onInput={nameChangeHandler} />
+                    <Input className={nameError ? 'name-input invalid' : 'name-input'} placeholder="Enter your name" id="nameInput" name="nameInput" value={name} mt={30} onInput={nameChangeHandler} autoFocus />
                     <FormControl isRequired>
                         <Select placeholder="Select a topic" mt={30} ref={topicRef} >
                             <option value="gk">General Knowledge</option>

@@ -7,7 +7,7 @@ import Welcome from './components/Welcome/Welcome';
 import Problem from './components/Problem/Problem';
 import Result from './components/Result/Result';
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
   return (
 
     <div className="App">
-      <Switch>
 
-        <Route path="/quiz" exact>
+      <Switch>
+        <Route path="/quiz" >
           {isQuizRunning ?
             <Problem />
             :
@@ -32,9 +32,8 @@ function App() {
           <Welcome />
         </Route>
       </Switch>
+
     </div>
-
-
 
   );
 }

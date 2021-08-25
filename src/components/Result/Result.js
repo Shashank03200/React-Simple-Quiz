@@ -1,20 +1,23 @@
 import { Container, Box, Heading, Text, Button } from "@chakra-ui/react"
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router";
-import { useHistory } from "react-router-dom";
+
+import { useHistory } from "react-router";
 import { userSliceActions } from "../../store/user-slice";
 
 
-const Final = (props) => {
+const Result = (props) => {
+
+    const history = useHistory();
 
     useEffect(() => {
-        window.removeEventListener('beforeunload', () => console.log('Closed'))
+        window.removeEventListener("onunload", (event) => {
+            event.returnValue = "Reloading this page can cause exceptions and can result in failure.\nDo you wish to continue?"
+        });
     })
 
     const dispatch = useDispatch();
-    const history = useHistory();
-    const location = useLocation();
+
 
     const responses = useSelector(state => state.responses);
     const problems = useSelector(state => state.questions);
@@ -40,7 +43,8 @@ const Final = (props) => {
 
     const menuLinkHandler = () => {
         dispatch(userSliceActions.setQuizState(false))
-        history.replace('/');
+        window.location.href = "/"
+        // history.replace('/')
     }
 
 
@@ -71,4 +75,4 @@ const Final = (props) => {
     );
 }
 
-export default Final;
+export default Result;
