@@ -1,8 +1,9 @@
 import { Container, Box, Heading, Text, Button } from "@chakra-ui/react"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useHistory } from "react-router";
+import showWarningOnExit from "../../customFunctions";
 import { userSliceActions } from "../../store/user-slice";
 
 
@@ -11,16 +12,16 @@ const Result = (props) => {
     const history = useHistory();
 
     useEffect(() => {
-        window.removeEventListener("onunload", (event) => {
-            event.returnValue = "Reloading this page can cause exceptions and can result in failure.\nDo you wish to continue?"
-        });
-    })
+
+        window.removeEventListener('beforeunload', showWarningOnExit);
+    }, [])
 
     const dispatch = useDispatch();
 
 
     const responses = useSelector(state => state.responses);
     const problems = useSelector(state => state.questions);
+    const isNegativeScoreAllowed = useSelector(state => state.negativeScoreAllowed);
 
     let unattempted = 0, correct = 0, incorrect = 0;
     let score = 0;
@@ -33,7 +34,9 @@ const Result = (props) => {
             score += 10;
         } else if (responses[i] !== problems[i].answer) {
             incorrect++;
-            score -= 5;
+            if (isNegativeScoreAllowed) {
+                score -= 5;
+            }
         }
     }
     const restartQuiz = () => {
@@ -42,9 +45,9 @@ const Result = (props) => {
     }
 
     const menuLinkHandler = () => {
-        dispatch(userSliceActions.setQuizState(false))
+        dispatch(userSliceActions.resetQuiz());
         window.location.href = "/"
-        // history.replace('/')
+        // history.replace('/');
     }
 
 
@@ -60,12 +63,12 @@ const Result = (props) => {
                 <Text fontSize="xl">Unattempted Problems: {unattempted} </Text>
                 <Box mt="100px">
                     <Box d="flex" justifyContent="space-between" padding="20px">
-                        <Button colorScheme="teal" size="md">Review Responses</Button>
-                        <Button colorScheme="teal" size="md" onClick={menuLinkHandler}>Main Menu</Button>
+                        <Button colorScheme="teal" size="md" className="reviewBtn">Review Responses</Button>
+                        <Button colorScheme="teal" size="md" className="menuDirectBtn" onClick={menuLinkHandler}>Main Menu</Button>
                     </Box>
 
                     <Box padding="24px">
-                        <Button colorScheme="teal" size="lg" onClick={restartQuiz}>Restart</Button>
+                        <Button colorScheme="teal" size="lg" className="restartBtn" onClick={restartQuiz}>Restart</Button>
                     </Box>
 
                 </Box>

@@ -7,12 +7,9 @@ import Welcome from './components/Welcome/Welcome';
 import Problem from './components/Problem/Problem';
 import Result from './components/Result/Result';
 
-import { Switch, Route, Redirect } from "react-router-dom";
-
+import { Switch, Route } from "react-router-dom";
 
 function App() {
-
-
   const isQuizRunning = useSelector(state => state.isQuizRunning)
 
   return (
@@ -26,8 +23,8 @@ function App() {
             :
             <Result />
           }
-        </Route>
 
+        </Route>
         <Route path="/" >
           <Welcome />
         </Route>

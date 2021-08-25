@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 
+
 import { ChakraProvider } from "@chakra-ui/react"
 
 import { Provider } from 'react-redux'
@@ -14,7 +15,9 @@ ReactDOM.render(
   <BrowserRouter >
     <Provider store={store}>
       <ChakraProvider>
+        {/* <ColorModeScript initialColorMode="dark"> */}
         <App />
+        {/* </ColorModeScript> */}
       </ChakraProvider>
     </Provider>
   </BrowserRouter>

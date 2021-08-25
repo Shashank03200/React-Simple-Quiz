@@ -1,4 +1,4 @@
-import { Button, Center, Box, Input, Select, Checkbox, FormControl, propNames } from "@chakra-ui/react"
+import { Button, Center, Box, Input, Select, Checkbox, FormControl, IconButton, Icon } from "@chakra-ui/react"
 import React, { useState, useRef, useEffect } from "react";
 
 import './Welcome.css'
@@ -9,7 +9,8 @@ import { userSliceActions } from "../../store/user-slice";
 import { fetchQuestions } from "../../store/user-actions";
 import { Container, Heading } from "@chakra-ui/react"
 
-import { Redirect, useHistory } from "react-router";
+import { useHistory } from "react-router";
+import { MoonIcon } from "@chakra-ui/icons";
 
 
 const Welcome = (props) => {
@@ -19,9 +20,14 @@ const Welcome = (props) => {
 
     const isLoading = useSelector(state => state.loading);
     const questions = useSelector(state => state.questions);
+    const negativeCheck = useSelector(state => state.negativeScoreAllowed)
+
+    console.log(negativeCheck)
+
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState(true);
     const [nameIsTouched, setNameIsTouched] = useState(false)
+
 
     const topicRef = useRef()
     const negativeRef = useRef();
@@ -47,6 +53,10 @@ const Welcome = (props) => {
         setNameIsTouched(true)
     }
 
+    const checkboxToggleHandler = () => {
+        dispatch(userSliceActions.toggleNegativeMarking(negativeRef.current.checked))
+    }
+
     const setUserHandler = (event) => {
 
         event.preventDefault()
@@ -61,18 +71,21 @@ const Welcome = (props) => {
             alert('Please select a topic to continue.');
             return
         }
-        dispatch(userSliceActions.setUser(name, topic))
+        const negativeAllowed = negativeRef.current.checked;
 
-        const negativeAllowed = negativeRef.current.checked
+        dispatch(userSliceActions.setUser({ name, topic, negativeScoreAllowed: negativeAllowed }))
 
-        dispatch(fetchQuestions());
+
+        dispatch(fetchQuestions(topic));
         dispatch(userSliceActions.setQuizState(true));
     }
 
-    if (questions !== undefined)
-        history.push('quiz')
+    if (questions !== undefined) {
+        history.push('/quiz')
+    }
 
     return (
+
 
         <Container
             p={{ base: "16px", md: "20px", lg: "30px" }}
@@ -84,24 +97,32 @@ const Welcome = (props) => {
                 <Center fontSize={{ base: "30px", md: "40px", lg: "50px" }} >Select your quiz</Center>
             </Heading>
             <Box p={{ base: "10px", md: "40px", lg: "50px" }} mt="20">
+                <FormControl isRequired>
 
-                <form>
                     <Input className={nameError ? 'name-input invalid' : 'name-input'} placeholder="Enter your name" id="nameInput" name="nameInput" value={name} mt={30} onInput={nameChangeHandler} autoFocus />
-                    <FormControl isRequired>
-                        <Select placeholder="Select a topic" mt={30} ref={topicRef} >
-                            <option value="gk">General Knowledge</option>
-                            <option value="physics">Physics</option>
-                            <option value="chemistry">Chemistry</option>
-                            <option value="history">History</option>
-                            <option value="space">Space</option>
-                            <option value="aptitude">Aptitude</option>
-                        </Select>
-                    </FormControl>
-                    <Checkbox defaultIsChecked name="negativeCheckbox" mt={30} ref={negativeRef}>Allow negative marking</Checkbox>
-                    <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement="end" colorScheme="teal" mt={30} w="100%" onClick={setUserHandler}>Start Quiz</Button>
-                </form>
+
+                    <Select placeholder="Select a topic" mt={30} ref={topicRef} >
+                        <option value="gk">General Knowledge</option>
+                        <option value="animals">Animals</option>
+                        <option value="politics">Politics</option>
+                        <option value="computers">Computers</option>
+                        <option value="vehicles">Vehicles</option>
+                        <option value="sports">Sports</option>
+                    </Select>
+                </FormControl>
+                <Checkbox
+                    defaultIsChecked name="negativeCheckbox"
+                    mt={30}
+                    onChange={checkboxToggleHandler}
+                    ref={negativeRef}
+                    isChecked={negativeCheck}>
+                    Allow negative marking</Checkbox>
+                <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement="end" colorScheme="teal" mt={30} w="100%" onClick={setUserHandler}>Start Quiz</Button>
+
             </Box>
         </Container>
+
+
     );
 }
 

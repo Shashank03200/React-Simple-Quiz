@@ -8,7 +8,8 @@ const userSlice = createSlice({
         questions: undefined,
         reponses: [],
         isQuizRunning: false,
-        loading: false
+        loading: false,
+        negativeScoreAllowed: true
     },
     reducers: {
 
@@ -23,11 +24,15 @@ const userSlice = createSlice({
         setUser(state, action) {
             state.name = action.payload.name;
             state.topic = action.payload.topic
+            state.negativeScoreAllowed = action.payload.negativeScoreAllowed;
         },
         resetQuiz(state) {
             state.name = undefined;
             state.questions = undefined;
             state.responses = [];
+        },
+        toggleNegativeMarking(state) {
+            state.negativeScoreAllowed = !state.negativeScoreAllowed;
         },
         setResponse(state, action) {
             state.responses[action.payload.currentProblemIndex] = action.payload.response;
