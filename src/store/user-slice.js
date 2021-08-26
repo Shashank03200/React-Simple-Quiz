@@ -30,6 +30,7 @@ const userSlice = createSlice({
             state.name = undefined;
             state.questions = undefined;
             state.responses = [];
+            state.isQuizRunning = false;
         },
         toggleNegativeMarking(state) {
             state.negativeScoreAllowed = !state.negativeScoreAllowed;

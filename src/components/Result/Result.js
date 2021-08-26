@@ -2,14 +2,14 @@ import { Container, Box, Heading, Text, Button } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useHistory } from "react-router";
+
 import showWarningOnExit from "../../customFunctions";
 import { userSliceActions } from "../../store/user-slice";
+import Error from "../Error/Error";
 
 
 const Result = (props) => {
 
-    const history = useHistory();
 
     useEffect(() => {
 
@@ -18,10 +18,15 @@ const Result = (props) => {
 
     const dispatch = useDispatch();
 
-
+    const name = useSelector(state => state.name)
     const responses = useSelector(state => state.responses);
     const problems = useSelector(state => state.questions);
     const isNegativeScoreAllowed = useSelector(state => state.negativeScoreAllowed);
+
+    if (responses === undefined) {
+        return <Error />
+    }
+
 
     let unattempted = 0, correct = 0, incorrect = 0;
     let score = 0;
@@ -45,15 +50,18 @@ const Result = (props) => {
     }
 
     const menuLinkHandler = () => {
-        dispatch(userSliceActions.resetQuiz());
+
         window.location.href = "/"
         // history.replace('/');
     }
 
 
     return (
-        <Container padding={{ base: "10px", md: "30px", lg: "40px" }} my={{ base: "30px", md: "50px", lg: "130px" }} textAlign="center" border="1px" borderColor="gray.300" borderRadius="lg">
-            <Box><Heading as="h2" fontSize="5xl" mb="40px">Quiz Completed</Heading></Box>
+        <Container padding={{ base: "10px", md: "30px", lg: "40px" }} mt={{ base: "20px", md: "20px", lg: "10px" }} textAlign="center" border="1px" borderColor="gray.300" borderRadius="lg">
+            <Box fontSize="2rem" color="#512D6D" my={{ base: "30px", md: "30px" }}>
+                Dear {name}
+            </Box>
+            <Box><Heading as="h2" fontSize="3xl" mb="40px" color="gray.600">Quiz Completed</Heading></Box>
 
             <Box d="flex" justifyContent="space-evenly"><Heading as="h3" fontSize="3xl" d="inline" justify="center">Your Score: </Heading><Heading d="inline" as="h3" fontSize="3xl" color="teal">{score} / 100</Heading></Box>
 

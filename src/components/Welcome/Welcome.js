@@ -1,4 +1,4 @@
-import { Button, Center, Box, Input, Select, Checkbox, FormControl, IconButton, Icon } from "@chakra-ui/react"
+import { Button, Center, Box, Input, Select, Checkbox, FormControl, useToast } from "@chakra-ui/react"
 import React, { useState, useRef, useEffect } from "react";
 
 import './Welcome.css'
@@ -17,6 +17,7 @@ const Welcome = (props) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
+    const toast = useToast();
 
     const isLoading = useSelector(state => state.loading);
     const questions = useSelector(state => state.questions);
@@ -33,7 +34,8 @@ const Welcome = (props) => {
     const negativeRef = useRef();
 
     useEffect(() => {
-        dispatch(userSliceActions.setQuizState(false))
+        dispatch(userSliceActions.resetQuiz());
+        // dispatch(userSliceActions.setQuizState(false))
     }, [])
 
     useEffect(() => {
@@ -62,13 +64,23 @@ const Welcome = (props) => {
         event.preventDefault()
         setNameIsTouched(true)
         if (name === '') {
-            // alert('Enter your valid name')
+            toast({
+                title: "Please enter your name.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            })
             return;
         }
         const topic = topicRef.current.value;
 
         if (topic === '') {
-            alert('Please select a topic to continue.');
+            toast({
+                title: "Please select a topic.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            })
             return
         }
         const negativeAllowed = negativeRef.current.checked;

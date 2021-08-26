@@ -1,3 +1,4 @@
+import { shuffleArray } from "../customFunctions";
 import { userSliceActions } from "./user-slice"
 
 
@@ -26,18 +27,22 @@ export const fetchQuestions = (topic) => {
 
             for (let item of data.results) {
 
-                const choices = [...item.incorrect_answers.map(ans => window.atob(ans)), window.atob(item.correct_answer)]
+                let choices = [...item.incorrect_answers.map(ans => window.atob(ans)), window.atob(item.correct_answer)]
 
-                console.log(choices)
 
                 const newQues = {
                     ques: window.atob(item.question),
                     answer: window.atob(item.correct_answer),
-                    choices
+                    choices: shuffleArray(choices)
                 }
                 questionsList.push(newQues)
             }
-            dispatch(userSliceActions.setQuestions({ questionSet: questionsList }))
+
+            let shuffledList = shuffleArray(questionsList);
+            shuffledList.forEach(item => {
+                item.choices = shuffleArray(item.choices)
+            })
+            dispatch(userSliceActions.setQuestions({ questionSet: shuffledList }))
 
 
         }
