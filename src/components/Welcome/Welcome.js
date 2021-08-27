@@ -10,7 +10,6 @@ import { fetchQuestions } from "../../store/user-actions";
 import { Container, Heading } from "@chakra-ui/react"
 
 import { useHistory } from "react-router";
-import { MoonIcon } from "@chakra-ui/icons";
 
 
 const Welcome = (props) => {
@@ -36,7 +35,7 @@ const Welcome = (props) => {
     useEffect(() => {
         dispatch(userSliceActions.resetQuiz());
         // dispatch(userSliceActions.setQuizState(false))
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (name === '' && nameIsTouched) {
@@ -114,12 +113,12 @@ const Welcome = (props) => {
                     <Input className={nameError ? 'name-input invalid' : 'name-input'} placeholder="Enter your name" id="nameInput" name="nameInput" value={name} mt={30} onInput={nameChangeHandler} autoFocus />
 
                     <Select placeholder="Select a topic" mt={30} ref={topicRef} >
-                        <option value="gk">General Knowledge</option>
-                        <option value="animals">Animals</option>
-                        <option value="politics">Politics</option>
-                        <option value="computers">Computers</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sports">Sports</option>
+                        <option value="General Knowledge">General Knowledge</option>
+                        <option value="Animals">Animals</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Computers">Computers</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sports">Sports</option>
                     </Select>
                 </FormControl>
                 <Checkbox

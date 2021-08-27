@@ -1,7 +1,7 @@
 import { Container, Box, Heading, Text, Button } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import Demo from "../ReviewWindow/ReviewWindow";
 
 import showWarningOnExit from "../../customFunctions";
 import { userSliceActions } from "../../store/user-slice";
@@ -12,13 +12,20 @@ const Result = (props) => {
 
 
     useEffect(() => {
-
         window.removeEventListener('beforeunload', showWarningOnExit);
     }, [])
 
+    useEffect(() => {
+        window.addEventListener('focus', toggleReviewWindowHandler);
+    }, [])
+
+    const [review, setReview] = useState(false)
+
     const dispatch = useDispatch();
 
+
     const name = useSelector(state => state.name)
+    const topic = useSelector(state => state.topic)
     const responses = useSelector(state => state.responses);
     const problems = useSelector(state => state.questions);
     const isNegativeScoreAllowed = useSelector(state => state.negativeScoreAllowed);
@@ -50,9 +57,12 @@ const Result = (props) => {
     }
 
     const menuLinkHandler = () => {
-
         window.location.href = "/"
-        // history.replace('/');
+    }
+
+    const toggleReviewWindowHandler = () => {
+        console.log('Toggling');
+        setReview(prevState => !prevState);
     }
 
 
@@ -65,13 +75,14 @@ const Result = (props) => {
 
             <Box d="flex" justifyContent="space-evenly"><Heading as="h3" fontSize="3xl" d="inline" justify="center">Your Score: </Heading><Heading d="inline" as="h3" fontSize="3xl" color="teal">{score} / 100</Heading></Box>
 
+
             <Box mt="40px">
                 <Text fontSize="xl">Correct Response: {correct}</Text>
                 <Text fontSize="xl">Incorrect Response: {incorrect}</Text>
                 <Text fontSize="xl">Unattempted Problems: {unattempted} </Text>
                 <Box mt="100px">
                     <Box d="flex" justifyContent="space-between" padding="20px">
-                        <Button colorScheme="teal" size="md" className="reviewBtn">Review Responses</Button>
+                        <Button colorScheme="teal" size="md" className="reviewBtn" onClick={toggleReviewWindowHandler}>Review Responses</Button>
                         <Button colorScheme="teal" size="md" className="menuDirectBtn" onClick={menuLinkHandler}>Main Menu</Button>
                     </Box>
 
@@ -82,6 +93,7 @@ const Result = (props) => {
                 </Box>
             </Box>
 
+            {review && < Demo title='Quiz Results' name={name} responses={responses} topic={topic} problems={problems} onExit={toggleReviewWindowHandler} copyStyles features={{ width: window.innerWidth, height: window.innerHeight }} />}
         </Container >
     );
 }

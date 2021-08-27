@@ -6,13 +6,13 @@ export const fetchQuestions = (topic) => {
 
     let topicCode = undefined;
     switch (topic) {
-        case 'gk': topicCode = 9; break;
-        case 'animals': topicCode = 27; break;
-        case 'sports': topicCode = 21; break;
-        case 'politics': topicCode = 24; break;
-        case 'vehicles': topicCode = 28; break;
-        case 'computers': topicCode = 18; break;
-        default: alert('Incorrect Topic Chosen'); return; break;
+        case 'General Knowledge': topicCode = 9; break;
+        case 'Animals': topicCode = 27; break;
+        case 'Sports': topicCode = 21; break;
+        case 'Politics': topicCode = 24; break;
+        case 'Vehicles': topicCode = 28; break;
+        case 'Computers': topicCode = 18; break;
+        default: alert('Incorrect Topic Chosen'); return;
     }
 
     return (dispatch) => {

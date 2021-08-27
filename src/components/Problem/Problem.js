@@ -57,7 +57,7 @@ const Problem = (props) => {
     return (
         <>
 
-            <Box position="relative" minHeight={{ base: "450px", md: "500px", lg: "auto" }} mt={{ md: "60px", lg: "160px" }} width={{ base: "100%", md: "80%", lg: "90%" }} mx="auto" borderWidth="2px" p="30px" borderRadius="lg">
+            <Box shadow="md" position="relative" minHeight={{ base: "450px", md: "500px", lg: "auto" }} mt={{ md: "60px", lg: "160px" }} width={{ base: "100%", md: "80%", lg: "90%" }} mx="auto" borderWidth="2px" p="30px" borderRadius="lg">
                 <Box borderRadius="lg" p="10px">
                     <Text fontSize={{ base: '20px', md: '24px', lg: '26px' }}>{currentQuestion}</Text>
                 </Box>
@@ -69,7 +69,7 @@ const Problem = (props) => {
 
 
                                 return (
-                                    <Box borderWidth="2px" borderRadius="md" pl={{ base: '10px', md: '12px', lg: '40px' }} >
+                                    <Box key={index} borderWidth="2px" borderRadius="md" pl={{ base: '10px', md: '12px', lg: '40px' }} >
                                         <Radio colorScheme="green" name={"problem" + setCurrentProblemIndex} value={choice} isFullWidth >
                                             <Text fontSize={{ base: '16px', md: '20px', lg: '20px' }} padding={["5px", "8px", "10px"]} >{choice}</Text>
                                         </Radio>
