@@ -59,7 +59,7 @@ const Problem = (props) => {
 
             <Box shadow="md" position="relative" minHeight={{ base: "450px", md: "500px", lg: "auto" }} mt={{ md: "60px", lg: "160px" }} width={{ base: "100%", md: "80%", lg: "90%" }} mx="auto" borderWidth="2px" p="30px" borderRadius="lg">
                 <Box borderRadius="lg" p="10px">
-                    <Text fontSize={{ base: '20px', md: '24px', lg: '26px' }}>{currentQuestion}</Text>
+                    <Text fontSize={{ base: '14px', md: '22px', lg: '26px' }}>{currentQuestion}</Text>
                 </Box>
                 <RadioGroup position={{ base: "absolute", md: "relative" }} bottom={{ base: "20px", md: "auto" }} name={"problem" + setCurrentProblemIndex} onChange={markResponse} value={responses[currentProblemIndex]}>
                     <Grid templateColumns={{ base: "repeat(1,1fr)", lg: "repeat(2, 1fr)" }} gap={6} mt={{ base: "20px", md: "40px", lg: "40px" }}>

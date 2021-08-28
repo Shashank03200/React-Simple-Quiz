@@ -110,7 +110,7 @@ const Welcome = (props) => {
             <Box p={{ base: "10px", md: "40px", lg: "50px" }} mt="20">
                 <FormControl isRequired>
 
-                    <Input className={nameError ? 'name-input invalid' : 'name-input'} placeholder="Enter your name" id="nameInput" name="nameInput" value={name} mt={30} onInput={nameChangeHandler} autoFocus />
+                    <Input className={nameError ? 'name-input invalid' : 'name-input'} placeholder="Enter your name" id="nameInput" name="nameInput" value={name} mt={30} onInput={nameChangeHandler} autoFocus autocomplete='false'/>
 
                     <Select placeholder="Select a topic" mt={30} ref={topicRef} >
                         <option value="General Knowledge">General Knowledge</option>
@@ -128,7 +128,15 @@ const Welcome = (props) => {
                     ref={negativeRef}
                     isChecked={negativeCheck}>
                     Allow negative marking</Checkbox>
-                <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement="end" colorScheme="teal" mt={30} w="100%" onClick={setUserHandler}>Start Quiz</Button>
+                <Button
+                  isLoading={isLoading}
+                  loadingText="Loading"
+                  spinnerPlacement="end"
+                  colorScheme="teal"
+                  mt={30}
+                  w="100%"
+                  onClick={setUserHandler}>
+                  Start Quiz</Button>
 
             </Box>
         </Container>

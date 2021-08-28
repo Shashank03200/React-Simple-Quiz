@@ -11,12 +11,20 @@ import Error from "../Error/Error";
 const Result = (props) => {
 
 
+
     useEffect(() => {
         window.removeEventListener('beforeunload', showWarningOnExit);
     }, [])
 
+
+
     useEffect(() => {
-        window.addEventListener('focus', toggleReviewWindowHandler);
+        try{
+            window.addEventListener('focus', toggleReviewWindowHandler);
+        }catch(err){
+            window.location.href = "/";
+        }
+        
     }, [])
 
     const [review, setReview] = useState(false)
@@ -61,9 +69,9 @@ const Result = (props) => {
     }
 
     const toggleReviewWindowHandler = () => {
-        console.log('Toggling');
         setReview(prevState => !prevState);
     }
+
 
 
     return (
@@ -93,7 +101,7 @@ const Result = (props) => {
                 </Box>
             </Box>
 
-            {review && < Demo title='Quiz Results' name={name} responses={responses} topic={topic} problems={problems} onExit={toggleReviewWindowHandler} copyStyles features={{ width: window.innerWidth, height: window.innerHeight }} />}
+            {review && < Demo title='Quiz Results' name={name} responses={responses} topic={topic} problems={problems} onExit={toggleReviewWindowHandler} score={score} />}
         </Container >
     );
 }
